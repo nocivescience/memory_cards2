@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,100&display=swap');
+        body{
+            background-color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            position: relative;
+        }
+        .contenedor{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: auto;
+            height: auto;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        h1{
+            font-family: 'Roboto', sans-serif;
+            font-weight: 100;
+        }
+        .contenedor > *:not(#salida){
+            margin: 10px;
+        }
+        .contenedor input{
+            padding: 6px;
+            border-radius: 5px;
+        }
+        .contenedor > #salida{
+            margin: 40px;
+        }
+        .each-element{
+            background-color: rgba(18, 18, 18, 0.692);
+            color: rgb(222, 222, 222);
+            width: 300px;
+            height: 20px;
+            margin: 10px;
+            text-align: center;
+            border-radius: 5px;
+            font-family: 'Roboto', sans-serif;
+        }
+        .alerta{
+            position: absolute;
+            top: 10%;
+            left:38%;
+            width: auto;
+            height: auto;
+            background-color: rgb(237, 237, 237);
+            font-family: 'Roboto', sans-serif;
+            font-weight: 100;
+            font-size: 42px;
+            display: none;
+            color: rgb(255, 68, 68);
+            align-items: center;
+            justify-content: center;
+        }
+        .show-alert{
+            display: flex;
+            animation: alert-show 1s ease-in-out;
+        }
+        @keyframes alert-show {
+            0%{
+                size: 0px;
+                display: none;
+            }
+            100%{
+                size: 100px;
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="contenedor">
+        <h1>Entrega tu información</h1>
+        <button id="btn">entrada</button>
+        <input type="text" id="entrada">
+        <div id="salida"></div>
+    </div>
+    <div class="alerta">No puede estar vacío</div>
+</body>
+<script>
+    const btnElement = document.getElementById('btn');
+    const entradaElement = document.getElementById('entrada');
+    const salidaElement = document.getElementById('salida');
+    const alertaElement = document.querySelector('.alerta');
+    const cardsData=[];
+    function setCards(message){
+        localStorage.setItem('cards', message);
+    }
+    function getCards(){
+        return JSON.parse(localStorage.getItem('cards'));
+    }
+    function setCards(message){
+        localStorage.setItem('cards', JSON.stringify(message));
+    }
+    btnElement.addEventListener('click', () => {
+        const target = document.createElement('div');
+        target.classList.add('each-element');
+        target.innerHTML = entradaElement.value;
+        salidaElement.appendChild(target);
+        alertaElement.classList.add('show-alert');
+        if (entradaElement.value === '') {
+            target.remove();
+        }
+        cardsData.push(entradaElement.value);
+        setCards(cardsData);
+        entradaElement.value = '';
+    });
+</script>
+</html>
